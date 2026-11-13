@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskPoints · Tareas con dificultad y puntos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>🎯 TaskPoints</h1>
+    <p class="subtitle">Añade tareas · el sistema analiza la dificultad (1-10) · gana puntos al cumplirlas</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <h2>Nueva tarea</h2>
+      <form id="task-form">
+        <label for="title">Tarea *</label>
+        <input id="title" type="text" placeholder="Ej: Preparar presentación trimestral" required maxlength="120" />
+
+        <label for="description">Descripción <span class="muted">(opcional)</span></label>
+        <textarea id="description" rows="3" placeholder="Detalles de la tarea; el sistema los usa para estimar la dificultad"></textarea>
+
+        <div class="row">
+          <div class="field">
+            <label for="duration">Duración estimada (horas) *</label>
+            <input id="duration" type="number" min="0.25" max="200" step="0.25" value="1" required />
+          </div>
+          <div class="field">
+            <label for="deadline">Fecha límite <span class="muted">(opcional)</span></label>
+            <input id="deadline" type="date" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="priority">Prioridad</label>
+            <select id="priority">
+              <option value="baja">Baja</option>
+              <option value="media" selected>Media</option>
+              <option value="alta">Alta</option>
+              <option value="critica">Crítica</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="category">Categoría</label>
+            <select id="category">
+              <option value="trabajo">Trabajo</option>
+              <option value="estudio">Estudio</option>
+              <option value="hogar">Hogar</option>
+              <option value="personal">Personal</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary">Añadir y analizar</button>
+      </form>
+
+      <div id="analysis-preview" class="analysis-preview hidden"></div>
+    </section>
+
+    <section class="panel stats-panel">
+      <h2>Tu progreso</h2>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-value" id="stat-points">0</span>
+          <span class="stat-label">Puntos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="stat-level">1</span>
+          <span class="stat-label">Nivel</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="stat-completed">0</span>
+          <span class="stat-label">Completadas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="stat-pending">0</span>
+          <span class="stat-label">Pendientes</span>
+        </div>
+      </div>
+      <div class="level-bar">
+        <div id="level-progress" class="level-progress" style="width:0%"></div>
+      </div>
+      <p class="muted" id="level-hint"></p>
+    </section>
+  </main>
+
+  <section class="panel tasks-panel">
+    <div class="tasks-header">
+      <h2>Mis tareas</h2>
+      <div class="filters">
+        <button class="btn filter active" data-filter="todas">Todas</button>
+        <button class="btn filter" data-filter="pendientes">Pendientes</button>
+        <button class="btn filter" data-filter="completadas">Completadas</button>
+        <button class="btn filter" data-filter="dificultad">Por dificultad</button>
+      </div>
+    </div>
+    <ul id="task-list" class="task-list"></ul>
+    <p id="empty-state" class="empty-state">No hay tareas todavía. Añade la primera 👆</p>
+  </section>
+
+  <footer class="footer muted">
+    Análisis automático: duración, complejidad del texto, prioridad, plazo y categoría · Puntos = dificultad × 10 (+ bonos)
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
